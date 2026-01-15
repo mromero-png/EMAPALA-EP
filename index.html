@@ -386,7 +386,7 @@
               style="border:0;"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/place/Roman+Hermanos/@0.0849691,-76.9076931,988m/data=!3m2!1e3!4b1!4m6!3m5!1s0x8e2823eef91a4fff:0xdfb0aa1be59ce879!8m2!3d0.0849691!4d-76.9051128!16s%2Fg%2F11c2ptgx5t?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D">
+              src="">
             </iframe>
           </div>
 
@@ -405,15 +405,15 @@
   <script>
     // ====== CONFIGURA AQUÍ (solo cambia estos 3 valores) ======
     const PHONE_E164 = "593983219093";    // <-- TU WHATSAPP (sin +, sin espacios). Ej: 593987654321
-    const CITY_QUERY = "https://www.google.com/maps/place/Roman+Hermanos/@0.0849691,-76.9076931,988m/data=!3m2!1e3!4b1!4m6!3m5!1s0x8e2823eef91a4fff:0xdfb0aa1be59ce879!8m2!3d0.0849691!4d-76.9051128!16s%2Fg%2F11c2ptgx5t?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D"; // <-- Tu ciudad para el mapa / ubicación
+    const CITY_QUERY = "Nueva Loja Frente A Hermanos Roman Via Quito"; // <-- Tu ciudad para el mapa / ubicación
     const BUSINESS_NAME = "Industries MR";   // <-- Nombre que sale en el mensaje
 
     // ====== LINKS dinámicos ======
     const baseWa = (text) => `https://wa.me/${PHONE_E164}?text=${encodeURIComponent(text)}`;
     const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CITY_QUERY)}`;
 
-    document.getElementById("btnWhats").href = baseWa(`Hola, quiero una cotización con ${BUSINESS_NAME}.`);
-    document.getElementById("whats2").href   = baseWa(`Hola, quiero una cotización con ${BUSINESS_NAME}.`);
+    document.getElementById("btnWhats").href = baseWa(`Hola, vi su anuncio en internet me gustaria porfavor tener una cotización con ${BUSINESS_NAME}.`);
+    document.getElementById("whats2").href   = baseWa(`Hola, vi su anuncio en internet me gustaria porfavor tener una cotización con${BUSINESS_NAME}.`);
     document.getElementById("maps").href     = mapLink;
     document.getElementById("mapFrame").src  = `https://www.google.com/maps?q=${encodeURIComponent(CITY_QUERY)}&output=embed`;
 
