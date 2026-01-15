@@ -1,21 +1,450 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi primera página</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Industries MR — Ingeniería Eléctrica</title>
+  <meta name="description" content="Servicios de ingeniería eléctrica: diseño de planos, estudios, aprobaciones CNEL EP, presupuestos PUNIS, armado de tableros e inspecciones técnicas." />
+
+  <style>
+    :root{
+      --sky:#1ea7ff;
+      --sky2:#74d6ff;
+      --ink:#0b1f33;
+      --muted:#4a5b6b;
+      --bg:#f6fbff;
+      --card:#ffffff;
+      --line: rgba(30,167,255,.18);
+      --shadow: 0 16px 50px rgba(11,31,51,.12);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(116,214,255,.35), transparent 55%),
+                  radial-gradient(1200px 800px at 120% 10%, rgba(30,167,255,.25), transparent 55%),
+                  var(--bg);
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:18px; }
+
+    /* Topbar */
+    .topbar{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(246,251,255,.75);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 18px;
+      max-width:1100px; margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; min-width:220px;
+    }
+    .logo{
+      width:42px; height:42px; border-radius:12px;
+      background: linear-gradient(135deg, var(--sky), var(--sky2));
+      box-shadow: 0 10px 28px rgba(30,167,255,.25);
+      display:grid; place-items:center;
+      color:#fff; font-weight:900;
+    }
+    .brand h1{ font-size:16px; margin:0; letter-spacing:.2px; }
+    .brand p{ margin:0; font-size:12px; color:var(--muted); }
+
+    .links{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .btn{
+      padding:10px 12px; border-radius:12px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor:pointer;
+      font-weight:600;
+      font-size:13px;
+    }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--sky), var(--sky2));
+      color:#fff;
+      box-shadow: 0 14px 40px rgba(30,167,255,.22);
+    }
+    .btn:hover{ transform: translateY(-1px); transition: .15s ease; }
+
+    /* Hero */
+    .hero{
+      margin-top:16px;
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background:#fff;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:0;
+    }
+    @media (max-width: 900px){
+      .heroGrid{ grid-template-columns: 1fr; }
+    }
+    .heroText{ padding:26px; }
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 12px; border-radius:999px;
+      background: rgba(30,167,255,.10);
+      border: 1px solid var(--line);
+      font-size:12px; color:var(--muted);
+      margin-bottom:12px;
+    }
+    .heroText h2{
+      margin:0;
+      font-size:34px;
+      line-height:1.05;
+      letter-spacing:-.4px;
+    }
+    .heroText h2 span{ color: var(--sky); }
+    .heroText p{
+      margin:12px 0 0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:14px;
+    }
+    .heroActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .heroMedia{
+      min-height:300px;
+      background:
+        linear-gradient(180deg, rgba(11,31,51,.15), rgba(11,31,51,.35)),
+        url("https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1200&q=70");
+      background-size: cover;
+      background-position:center;
+      position:relative;
+    }
+    .heroBadge{
+      position:absolute;
+      left:16px; bottom:16px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:12px;
+      color:var(--muted);
+      max-width: 90%;
+    }
+
+    /* Sections */
+    section{ scroll-margin-top: 90px; }
+    .sectionTitle{
+      margin:22px 0 10px;
+      display:flex; align-items:end; justify-content:space-between; gap:10px;
+    }
+    .sectionTitle h3{ margin:0; font-size:18px; }
+    .sectionTitle p{ margin:0; color:var(--muted); font-size:13px; }
+
+    /* Cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background:var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(11,31,51,.07);
+      overflow:hidden;
+    }
+    .card .img{
+      height:160px;
+      background-size: cover;
+      background-position:center;
+    }
+    .card .content{ padding:14px; }
+    .card h4{ margin:0; font-size:15px; }
+    .card p{ margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
+    .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .tag{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      background: rgba(30,167,255,.06);
+      padding:6px 10px; border-radius:999px;
+    }
+
+    /* Contact */
+    .contact{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 900px){ .contact{ grid-template-columns: 1fr; } }
+    .box{
+      background:#fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(11,31,51,.08);
+      padding:14px;
+    }
+    .field{ display:grid; gap:8px; margin-top:10px; }
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(11,31,51,.15);
+      outline:none;
+      font-size:14px;
+    }
+    textarea{ min-height:110px; resize:vertical; }
+    .hint{ font-size:12px; color:var(--muted); margin-top:8px; }
+    .footer{
+      margin:20px 0 40px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
 </head>
-<body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f4f6f8;">
 
-  <img 
-    src="2036_oZ4n.jpg" 
-    alt="Imagen del proyecto"
-    style="
-      max-width:90%;
-      height:auto;
-      border-radius:16px;
-      box-shadow:0 15px 40px rgba(0,0,0,0.25);
-    "
-  >
+<body>
+  <!-- NAV -->
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">MR</div>
+        <div>
+          <h1>Industries MR</h1>
+          <p>Ingeniería Eléctrica • Planos • Tableros • CNEL EP</p>
+        </div>
+      </div>
 
+      <div class="links">
+        <a class="btn" href="#inicio">🏠 Inicio</a>
+        <a class="btn" href="#servicios">🛠 Servicios</a>
+        <a class="btn" href="#contacto">📩 Contacto</a>
+        <a class="btn primary" id="btnWhats" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <div class="heroGrid">
+        <div class="heroText">
+          <div class="pill">⚡ Servicios integrales en proyectos eléctricos • Ecuador</div>
+          <h2>Soluciones <span>eléctricas</span> para obras, industria y plantas de agua</h2>
+          <p>
+            Diseño de planos eléctricos en AutoCAD, elaboración de estudios, gestión de aprobación con CNEL EP,
+            presupuestos detallados en PUNIS/APU, armado de tableros eléctricos en campo e inspecciones técnicas.
+          </p>
+
+          <div class="heroActions">
+            <a class="btn primary" href="#servicios">Ver servicios</a>
+            <a class="btn" href="#contacto">Solicitar cotización</a>
+          </div>
+
+          <p class="hint">
+            Atención técnica en Lago Agrio, Coca, Sacha y soporte remoto a nivel nacional según alcance.
+          </p>
+        </div>
+
+        <div class="heroMedia" aria-label="Ingeniería eléctrica">
+          <div class="heroBadge">
+            ✅ Enfoque: seguridad, cumplimiento normativo y documentación lista para aprobación / construcción.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios">
+      <div class="sectionTitle">
+        <div>
+          <h3>Servicios</h3>
+          <p>Todo lo necesario para ejecutar un proyecto eléctrico de forma integral.</p>
+        </div>
+        <p>📌 Planos • Estudios • CNEL EP • Tableros • Inspección</p>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Diseño de planos eléctricos (BV / MV)</h4>
+            <p>Planos en AutoCAD, diagramas, dimensionamiento y documentación técnica para obra y fiscalización.</p>
+            <div class="tags">
+              <span class="tag">AutoCAD</span><span class="tag">Bajo voltaje</span><span class="tag">Medio voltaje</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Estudios eléctricos y memorias técnicas</h4>
+            <p>Cálculos, informes y sustentos: caídas de tensión, protecciones, demanda, y criterios de seguridad.</p>
+            <div class="tags">
+              <span class="tag">Informes</span><span class="tag">Cálculos</span><span class="tag">Normativa</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581091215367-59ab6b55f4e1?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Aprobación de proyectos (CNEL EP)</h4>
+            <p>Gestión documental, requisitos y acompañamiento técnico hasta obtener el certificado/aprobación.</p>
+            <div class="tags">
+              <span class="tag">Trámite</span><span class="tag">Revisión</span><span class="tag">Cumplimiento</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Presupuestos en PUNIS / APU</h4>
+            <p>Especificaciones técnicas, rubros, cantidades y precios unitarios con detalle para contratación/obra.</p>
+            <div class="tags">
+              <span class="tag">PUNIS</span><span class="tag">APU</span><span class="tag">Especificaciones</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Armado de tableros eléctricos (campo)</h4>
+            <p>Montaje, conexionado, pruebas básicas y soporte técnico para tableros de control, bombas y fuerza.</p>
+            <div class="tags">
+              <span class="tag">Tableros</span><span class="tag">Control</span><span class="tag">Puesta en marcha</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581094271901-8022df4466f9?auto=format&fit=crop&w=1200&q=70");'></div>
+          <div class="content">
+            <h4>Inspecciones técnicas</h4>
+            <p>Revisión en sitio, checklist de cumplimiento, observaciones y recomendaciones para entregar obra segura.</p>
+            <div class="tags">
+              <span class="tag">QA/QC</span><span class="tag">Seguridad</span><span class="tag">Reporte</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+      <div class="sectionTitle">
+        <div>
+          <h3>Contacto</h3>
+          <p>Escríbenos por WhatsApp o envía una solicitud (demo).</p>
+        </div>
+        <p>📍 Ubicación • 💬 WhatsApp • ✉️ Cotización</p>
+      </div>
+
+      <div class="contact">
+        <div class="box">
+          <h4 style="margin:0;">📩 Solicitar cotización</h4>
+          <p style="margin:6px 0 0; color:var(--muted); font-size:13px;">
+            Completa el formulario y se generará un mensaje (demo). Puedes copiarlo y enviarlo por WhatsApp.
+          </p>
+
+          <div class="field">
+            <input id="name" placeholder="Nombre" />
+            <input id="email" placeholder="Correo (opcional)" />
+            <textarea id="msg" placeholder="Describe tu proyecto (ubicación, potencia, alcance, fechas)..."></textarea>
+            <button class="btn primary" onclick="buildMsg()">Generar mensaje</button>
+            <div id="out" class="hint" style="display:none; white-space:pre-wrap;"></div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h4 style="margin:0;">💬 WhatsApp y ubicación</h4>
+          <p style="margin:6px 0 0; color:var(--muted); font-size:13px;">
+            Edita tu número y ciudad en el bloque de configuración del final del HTML.
+          </p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <a class="btn primary" id="whats2" href="#" target="_blank" rel="noopener">Abrir WhatsApp</a>
+            <a class="btn" id="maps" href="#" target="_blank" rel="noopener">Ver en Google Maps</a>
+          </div>
+
+          <div style="margin-top:12px; border-radius:16px; overflow:hidden; border:1px solid var(--line);">
+            <!-- Mapa embebido (puedes cambiar la ciudad/búsqueda) -->
+            <iframe
+              id="mapFrame"
+              title="Mapa"
+              width="100%" height="280"
+              style="border:0;"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Quito%20Ecuador&output=embed">
+            </iframe>
+          </div>
+
+          <p class="hint">
+            Horario: L–V 08:00–18:00 • Emergencias: según coordinación.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © <span id="year"></span> Industries MR — Página demo en GitHub Pages.
+    </div>
+  </div>
+
+  <script>
+    // ====== CONFIGURA AQUÍ (solo cambia estos 3 valores) ======
+    const PHONE_E164 = "593999999999";    // <-- TU WHATSAPP (sin +, sin espacios). Ej: 593987654321
+    const CITY_QUERY = "Lago Agrio Ecuador"; // <-- Tu ciudad para el mapa / ubicación
+    const BUSINESS_NAME = "Industries MR";   // <-- Nombre que sale en el mensaje
+
+    // ====== LINKS dinámicos ======
+    const baseWa = (text) => `https://wa.me/${PHONE_E164}?text=${encodeURIComponent(text)}`;
+    const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CITY_QUERY)}`;
+
+    document.getElementById("btnWhats").href = baseWa(`Hola, quiero una cotización con ${BUSINESS_NAME}.`);
+    document.getElementById("whats2").href   = baseWa(`Hola, quiero una cotización con ${BUSINESS_NAME}.`);
+    document.getElementById("maps").href     = mapLink;
+    document.getElementById("mapFrame").src  = `https://www.google.com/maps?q=${encodeURIComponent(CITY_QUERY)}&output=embed`;
+
+    document.getElementById("year").innerText = new Date().getFullYear();
+
+    // ====== Form: genera mensaje y ofrece link directo a WhatsApp ======
+    function buildMsg(){
+      const n = document.getElementById("name").value.trim();
+      const e = document.getElementById("email").value.trim();
+      const m = document.getElementById("msg").value.trim();
+      const out = document.getElementById("out");
+
+      if(!n || !m){
+        out.style.display = "block";
+        out.textContent = "⚠️ Completa al menos tu nombre y el mensaje del proyecto.";
+        return;
+      }
+
+      const text =
+`Hola, soy ${n}.
+Quiero una cotización con ${BUSINESS_NAME}.
+${e ? "Correo: " + e + "\n" : ""}Detalle del proyecto:
+${m}`;
+
+      out.style.display = "block";
+      out.innerHTML = `✅ Mensaje generado:\n\n${text}\n\n➡️ Enviar por WhatsApp: ${baseWa(text)}`;
+
+      // también actualiza botón principal con el mensaje
+      document.getElementById("btnWhats").href = baseWa(text);
+      document.getElementById("whats2").href   = baseWa(text);
+    }
+  </script>
 </body>
 </html>
