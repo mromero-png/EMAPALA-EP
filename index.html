@@ -127,7 +127,7 @@ html_code_content = """
         /* Estilos para los radio buttons personalizados */
         .candidate-radio-wrapper {
             position: relative;
-            padding: 10px 15px;
+            padding: 10px 15px;;
             border-radius: 20px;
             background-color: #e0e0e0;
             cursor: pointer;
@@ -259,23 +259,45 @@ html_code_content = """
     </style>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
 </head>
 <body>
     <header>
         <h1>Vota por tu Candidato</h1>
-        <p>Elecciones 2024</p>
+        <p>Elecciones 2027</p>
     </header>
 
     <main>
         <section id="candidates-display">
             <h2>Nuestros Candidatos</h2>
             <div id="candidate-cards-container">
-                <!-- Aquí se cargarán dinámicamente las tarjetas de los candidatos -->
-            </div>
+                        <div class="candidate-card">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/planning-with-ai-3e0fa.firebasestorage.app/o/candidate_00_photo.jpg?alt=media" alt="GABRIELA RIVADENEIRA" class="candidate-photo">
+                            <h4 class="candidate-name">GABRIELA RIVADENEIRA</h4>
+                            <p class="vote-count">Votos: <strong>1502</strong></p>
+                        </div>
+                    
+                        <div class="candidate-card">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/planning-with-ai-3e0fa.firebasestorage.app/o/candidate_02_photo.jpg?alt=media" alt="AQUILES ALVAREZ" class="candidate-photo">
+                            <h4 class="candidate-name">AQUILES ALVAREZ</h4>
+                            <p class="vote-count">Votos: <strong>705</strong></p>
+                        </div>
+                    
+                        <div class="candidate-card">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/planning-with-ai-3e0fa.firebasestorage.app/o/candidate_01_photo.jpg?alt=media" alt="DANIEL NOBOA AZIN" class="candidate-photo">
+                            <h4 class="candidate-name">DANIEL NOBOA AZIN</h4>
+                            <p class="vote-count">Votos: <strong>507</strong></p>
+                        </div>
+                    
+                        <div class="candidate-card">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/planning-with-ai-3e0fa.firebasestorage.app/o/candidate_03_photo.jpg?alt=media" alt="ANDREA GONZÀLES" class="candidate-photo">
+                            <h4 class="candidate-name">ANDREA GONZÀLES</h4>
+                            <p class="vote-count">Votos: <strong>200</strong></p>
+                        </div>
+                    </div>
         </section>
 
         <section id="voting-form-section">
@@ -284,47 +306,65 @@ html_code_content = """
                 <h3>Información del Ciudadano</h3>
                 <div class="form-group">
                     <label for="cedula">Número de Cédula:</label>
-                    <input type="text" id="cedula" name="cedula" required pattern="^[0-9]{10}$" title="Por favor, ingrese un número de cédula válido de 10 dígitos.">
+                    <input type="text" id="cedula" name="cedula" required="" pattern="^[0-9]{10}$" title="Por favor, ingrese un número de cédula válido de 10 dígitos.">
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" id="nombre" name="nombre" required="">
                 </div>
                 <div class="form-group">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" required>
+                    <input type="text" id="apellido" name="apellido" required="">
                 </div>
 
                 <h3>Selecciona tu Candidato</h3>
                 <div id="candidate-selection-radios">
-                    <!-- Los candidatos se cargarán aquí para selección (radio buttons) -->
-                </div>
+                        <div class="candidate-radio-wrapper">
+                            <input type="radio" id="radio-CANDIDATO" name="selected_candidate" value="CANDIDATO" required="">
+                            <label for="radio-CANDIDATO">GABRIELA RIVADENEIRA</label>
+                        </div>
+                    
+                        <div class="candidate-radio-wrapper">
+                            <input type="radio" id="radio-CANDIDATO 2" name="selected_candidate" value="CANDIDATO 2" required="">
+                            <label for="radio-CANDIDATO 2">AQUILES ALVAREZ</label>
+                        </div>
+                    
+                        <div class="candidate-radio-wrapper">
+                            <input type="radio" id="radio-CANDIDATO 1" name="selected_candidate" value="CANDIDATO 1" required="">
+                            <label for="radio-CANDIDATO 1">DANIEL NOBOA AZIN</label>
+                        </div>
+                    
+                        <div class="candidate-radio-wrapper">
+                            <input type="radio" id="radio-CANDIDATO 3" name="selected_candidate" value="CANDIDATO 3" required="">
+                            <label for="radio-CANDIDATO 3">ANDREA GONZÀLES</label>
+                        </div>
+                    </div>
 
                 <button type="submit" id="vote-button">Votar</button>
             </form>
-            <div id="feedback-message" class="feedback-success"></div>
+            <div id="feedback-message" class="feedback-success" style="display: none;"></div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Sistema de Votación. Todos los derechos reservados.</p>
+        <p>© 2024 Sistema de Votación. Todos los derechos reservados.</p>
     </footer>
 
     <script>
         // Tu configuración de Firebase
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID", // Usado para construir Storage URLs
-            storageBucket: "YOUR_STORAGE_BUCKET", // Usado para construir Storage URLs
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+        apiKey: "AIzaSyAMYhvf41GNI7CDq5OE3lWNWOPn3qH_h7U",
+        authDomain: "planning-with-ai-3e0fa.firebaseapp.com",
+        projectId: "planning-with-ai-3e0fa",
+        storageBucket: "planning-with-ai-3e0fa.firebasestorage.app",
+        messagingSenderId: "182043332939",
+        appId: "1:182043332939:web:e76761a36fa4655df9558ce"
+      };
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
 
         const candidateCardsContainer = document.getElementById('candidate-cards-container');
         const candidateSelectionRadios = document.getElementById('candidate-selection-radios');
@@ -434,21 +474,7 @@ html_code_content = """
                     const citizenRef = db.collection('citizens').doc(cedula);
                     const citizenDoc = await transaction.get(citizenRef);
 
-                    if (!citizenDoc.exists) {
-                        // Ciudadano no existe, lo creamos y marcamos que votará
-                        transaction.set(citizenRef, {
-                            nombres: nombre,
-                            apellidos: apellido,
-                            has_voted: false // Se actualiza a true después del voto
-                        });
-                        console.log(`Ciudadano ${cedula} creado.`);
-                    } else if (citizenDoc.data().has_voted) {
-                        // Ciudadano ya votó, abortar transacción
-                        throw new Error(`El ciudadano con Cédula ${cedula} ya ha votado.`);
-                    }
-
-                    // En este punto, el ciudadano existe y no ha votado.
-                    // Actualizar el voto del candidato y el estado del ciudadano.
+                    // LEER todos los documentos primero
                     const candidateRef = db.collection('candidates').doc(candidateId);
                     const candidateDoc = await transaction.get(candidateRef);
 
@@ -456,12 +482,29 @@ html_code_content = """
                         throw new Error(`El candidato con ID ${candidateId} no existe.`);
                     }
 
+                    if (citizenDoc.exists && citizenDoc.data().has_voted) {
+                        // Ciudadano ya votó, abortar transacción
+                        throw new Error(`El ciudadano con Cédula ${cedula} ya ha votado.`);
+                    }
+
+                    // Ahora que todas las lecturas se han realizado y las validaciones están hechas, procedemos con las escrituras
+                    if (!citizenDoc.exists) {
+                        // Ciudadano no existe, lo creamos
+                        transaction.set(citizenRef, {
+                            nombres: nombre,
+                            apellidos: apellido,
+                            has_voted: true // Marcar como votado al crearlo y votar
+                        });
+                        console.log(`Ciudadano ${cedula} creado y votó.`);
+                    } else {
+                        // Ciudadano existe y no ha votado, simplemente lo marcamos como votado
+                        transaction.update(citizenRef, { has_voted: true });
+                        console.log(`Ciudadano ${cedula} marcado como 'ha votado'.`);
+                    }
+
                     // Incrementa el contador de votos del candidato
                     const newVotes = candidateDoc.data().VOTOS + 1;
                     transaction.update(candidateRef, { VOTOS: newVotes });
-
-                    // Marca al ciudadano como que ya ha votado
-                    transaction.update(citizenRef, { has_voted: true });
 
                     console.log(`Voto registrado para ${cedula} por ${candidateId}.`);
                 });
@@ -482,8 +525,9 @@ html_code_content = """
         // Vincular la función de envío de voto al formulario
         votingForm.addEventListener('submit', handleVoteSubmission);
     </script>
-</body>
-</html>
+
+
+</body></html>
 """
 
 print("HTML content for index.html generated successfully. It can be saved or displayed.")
