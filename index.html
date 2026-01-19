@@ -1,450 +1,489 @@
-<!doctype html>
+html_code_content = """
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>INDUSTRIES MR — Ingeniería Eléctrica</title>
-  <meta name="description" content="Servicios de ingeniería eléctrica: diseño de planos, estudios, aprobaciones CNEL EP, presupuestos PUNIS, armado de tableros e inspecciones técnicas." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Votación</title>
+    <style>
+        /* Estilos Generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
 
-  <style>
-    :root{
-      --sky:#1ea7ff;
-      --sky2:#74d6ff;
-      --ink:#0b1f33;
-      --muted:#4a5b6b;
-      --bg:#f6fbff;
-      --card:#ffffff;
-      --line: rgba(30,167,255,.18);
-      --shadow: 0 16px 50px rgba(11,31,51,.12);
-      --radius: 18px;
-    }
+        header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--ink);
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(116,214,255,.35), transparent 55%),
-                  radial-gradient(1200px 800px at 120% 10%, rgba(30,167,255,.25), transparent 55%),
-                  var(--bg);
-    }
-    a{ color:inherit; text-decoration:none; }
-    .wrap{ max-width:1100px; margin:0 auto; padding:18px; }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
 
-    /* Topbar */
-    .topbar{
-      position: sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(246,251,255,.75);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; padding:14px 18px;
-      max-width:1100px; margin:0 auto;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; min-width:220px;
-    }
-    .logo{
-      width:42px; height:42px; border-radius:12px;
-      background: linear-gradient(135deg, var(--sky), var(--sky2));
-      box-shadow: 0 10px 28px rgba(30,167,255,.25);
-      display:grid; place-items:center;
-      color:#fff; font-weight:900;
-    }
-    .brand h1{ font-size:16px; margin:0; letter-spacing:.2px; }
-    .brand p{ margin:0; font-size:12px; color:var(--muted); }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
 
-    .links{
-      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
-    }
-    .btn{
-      padding:10px 12px; border-radius:12px;
-      border: 1px solid var(--line);
-      background: #fff;
-      cursor:pointer;
-      font-weight:600;
-      font-size:13px;
-    }
-    .btn.primary{
-      border:none;
-      background: linear-gradient(135deg, var(--sky), var(--sky2));
-      color:#fff;
-      box-shadow: 0 14px 40px rgba(30,167,255,.22);
-    }
-    .btn:hover{ transform: translateY(-1px); transition: .15s ease; }
+        /* Estilos para Contenedor de Tarjetas de Candidatos */
+        #candidate-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
 
-    /* Hero */
-    .hero{
-      margin-top:16px;
-      border-radius: var(--radius);
-      overflow:hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line);
-      background:#fff;
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:0;
-    }
-    @media (max-width: 900px){
-      .heroGrid{ grid-template-columns: 1fr; }
-    }
-    .heroText{ padding:26px; }
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 12px; border-radius:999px;
-      background: rgba(30,167,255,.10);
-      border: 1px solid var(--line);
-      font-size:12px; color:var(--muted);
-      margin-bottom:12px;
-    }
-    .heroText h2{
-      margin:0;
-      font-size:34px;
-      line-height:1.05;
-      letter-spacing:-.4px;
-    }
-    .heroText h2 span{ color: var(--sky); }
-    .heroText p{
-      margin:12px 0 0;
-      color:var(--muted);
-      line-height:1.5;
-      font-size:14px;
-    }
-    .heroActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
-    .heroMedia{
-      min-height:300px;
-      background:
-        linear-gradient(180deg, rgba(11,31,51,.15), rgba(11,31,51,.35)),
-        url("https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1200&q=70");
-      background-size: cover;
-      background-position:center;
-      position:relative;
-    }
-    .heroBadge{
-      position:absolute;
-      left:16px; bottom:16px;
-      background: rgba(255,255,255,.92);
-      border: 1px solid var(--line);
-      padding:10px 12px;
-      border-radius:14px;
-      font-size:12px;
-      color:var(--muted);
-      max-width: 90%;
-    }
+        .candidate-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            width: 280px; /* Ancho fijo para las tarjetas */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+            position: relative; /* Para el radio button flotante */
+        }
 
-    /* Sections */
-    section{ scroll-margin-top: 90px; }
-    .sectionTitle{
-      margin:22px 0 10px;
-      display:flex; align-items:end; justify-content:space-between; gap:10px;
-    }
-    .sectionTitle h3{ margin:0; font-size:18px; }
-    .sectionTitle p{ margin:0; color:var(--muted); font-size:13px; }
+        .candidate-card:hover {
+            transform: translateY(-5px);
+        }
 
-    /* Cards */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
-    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+        .candidate-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #3498db;
+        }
 
-    .card{
-      background:var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(11,31,51,.07);
-      overflow:hidden;
-    }
-    .card .img{
-      height:160px;
-      background-size: cover;
-      background-position:center;
-    }
-    .card .content{ padding:14px; }
-    .card h4{ margin:0; font-size:15px; }
-    .card p{ margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
-    .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    .tag{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--line);
-      background: rgba(30,167,255,.06);
-      padding:6px 10px; border-radius:999px;
-    }
+        .candidate-name {
+            font-size: 1.4em;
+            color: #34495e;
+            margin: 10px 0;
+        }
 
-    /* Contact */
-    .contact{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width: 900px){ .contact{ grid-template-columns: 1fr; } }
-    .box{
-      background:#fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 40px rgba(11,31,51,.08);
-      padding:14px;
-    }
-    .field{ display:grid; gap:8px; margin-top:10px; }
-    input, textarea{
-      width:100%;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid rgba(11,31,51,.15);
-      outline:none;
-      font-size:14px;
-    }
-    textarea{ min-height:110px; resize:vertical; }
-    .hint{ font-size:12px; color:var(--muted); margin-top:8px; }
-    .footer{
-      margin:20px 0 40px;
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-    }
-  </style>
+        .vote-count {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        /* Estilos para el Formulario de Votación */
+        #voting-form-section {
+            background-color: #ecf0f1;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        #voting-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input[type="text"] {
+            width: calc(100% - 22px); /* Ajustar para padding y borde */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #candidate-selection-radios {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        /* Estilos para los radio buttons personalizados */
+        .candidate-radio-wrapper {
+            position: relative;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .candidate-radio-wrapper:hover {
+            background-color: #d0d0d0;
+        }
+
+        .candidate-radio-wrapper input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .candidate-radio-wrapper label {
+            display: inline-block;
+            margin: 0;
+            font-weight: normal;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .candidate-radio-wrapper input[type="radio"]:checked + label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .candidate-radio-wrapper input[type="radio"]:checked + label::before {
+            content: '✅ ';
+        }
+
+
+        #vote-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.2s ease;
+        }
+
+        #vote-button:hover {
+            background-color: #2ecc71;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ffffff;
+            margin-top: 40px;
+        }
+
+        /* Mensajes de feedback */
+        #feedback-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Oculto por defecto */
+        }
+
+        .feedback-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Estilos Responsivos */
+        @media (max-width: 768px) {
+            main {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            #candidate-cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .candidate-card {
+                width: 90%;
+            }
+
+            #voting-form {
+                padding: 15px;
+            }
+
+            .form-group input[type="text"] {
+                width: calc(100% - 20px);
+            }
+
+            #candidate-selection-radios {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .candidate-radio-wrapper {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #candidate-cards-container {
+                gap: 15px;
+            }
+
+            .candidate-card {
+                width: 250px;
+            }
+        }
+
+    </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+
 </head>
-
 <body>
-  <!-- NAV -->
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <div class="logo">⚡</div>
-        <div>
-          <h1>INDUSTRIES  MR</h1>
-          <p>Ingeniería Eléctrica</p>
-        </div>
-      </div>
+    <header>
+        <h1>Vota por tu Candidato</h1>
+        <p>Elecciones 2024</p>
+    </header>
 
-      <div class="links">
-        <a class="btn" href="#inicio">🏠 Inicio</a>
-        <a class="btn" href="#servicios">🛠 Servicios</a>
-        <a class="btn" href="#contacto">📩 Contacto</a>
-        <a class="btn primary" id="btnWhats" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <!-- HERO -->
-    <section id="inicio" class="hero">
-      <div class="heroGrid">
-        <div class="heroText">
-          <div class="pill">⚡ Servicios Integrales En Proyectos Eléctricos • Ecuador</div>
-          <h2>Soluciones <span>Eléctricas</span> Para Obras, Industrias Y Plantas De Agua</h2>
-          <p>
-            Diseño de planos eléctricos en AutoCAD, elaboración de estudios, gestión de aprobación con CNEL EP,
-            presupuestos detallados en PUNIS/APU, armado de tableros eléctricos en campo e inspecciones técnicas.
-          </p>
-
-          <div class="heroActions">
-            <a class="btn primary" href="#servicios">Ver servicios</a>
-            <a class="btn" href="#contacto">Solicitar cotización</a>
-          </div>
-
-          <p class="hint">
-            Atención técnica en Lago Agrio, Coca, Sacha ,Shushufindi y soporte remoto a nivel nacional según alcance.
-          </p>
-        </div>
-
-        <div class="heroMedia" aria-label="Ingeniería eléctrica">
-          <div class="heroBadge">
-            ✅ Enfoque: seguridad, cumplimiento normativo y documentación lista para aprobación / construcción.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICIOS -->
-    <section id="servicios">
-      <div class="sectionTitle">
-        <div>
-          <h3>Servicios</h3>
-          <p>Todo lo necesario para ejecutar un proyecto eléctrico de forma integral.</p>
-        </div>
-        <p>📌 Planos • Estudios • CNEL EP • Tableros • Inspección</p>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <div class="img" style='background-image:url("https://damassets.autodesk.net/content/dam/autodesk/draftr/23812/floorplantim-campbell788x444.jpg");'></div>
-          <div class="content">
-            <h4>Diseño de planos eléctricos (BV / MV)</h4>
-            <p>Planos en AutoCAD, diagramas, dimensionamiento y documentación técnica para obra y fiscalización.</p>
-            <div class="tags">
-              <span class="tag">AutoCAD</span><span class="tag">Bajo voltaje</span><span class="tag">Medio voltaje</span>
+    <main>
+        <section id="candidates-display">
+            <h2>Nuestros Candidatos</h2>
+            <div id="candidate-cards-container">
+                <!-- Aquí se cargarán dinámicamente las tarjetas de los candidatos -->
             </div>
-          </div>
-        </article>
+        </section>
 
-        <article class="card">
-          <div class="img" style='background-image:url("https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=70");'></div>
-          <div class="content">
-            <h4>Estudios eléctricos y memorias técnicas</h4>
-            <p>Cálculos, informes y sustentos: caídas de tensión, protecciones, demanda, y criterios de seguridad.</p>
-            <div class="tags">
-              <span class="tag">Informes</span><span class="tag">Cálculos</span><span class="tag">Normativa</span>
-            </div>
-          </div>
-        </article>
+        <section id="voting-form-section">
+            <h2>Emite tu Voto</h2>
+            <form id="voting-form">
+                <h3>Información del Ciudadano</h3>
+                <div class="form-group">
+                    <label for="cedula">Número de Cédula:</label>
+                    <input type="text" id="cedula" name="cedula" required pattern="^[0-9]{10}$" title="Por favor, ingrese un número de cédula válido de 10 dígitos.">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
 
-        <article class="card">
-          <div class="img" style='background-image:url("https://historico.energia.gob.ec/wp-content/uploads/2016/03/Captura-de-pantalla-2016-03-11-a-las-15.39.541.jpg");'></div>
-          <div class="content">
-            <h4>Aprobación de proyectos (CNEL EP)</h4>
-            <p>Gestión documental, requisitos y acompañamiento técnico hasta obtener el certificado/aprobación.</p>
-            <div class="tags">
-              <span class="tag">Trámite</span><span class="tag">Revisión</span><span class="tag">Cumplimiento</span>
-            </div>
-          </div>
-        </article>
+                <h3>Selecciona tu Candidato</h3>
+                <div id="candidate-selection-radios">
+                    <!-- Los candidatos se cargarán aquí para selección (radio buttons) -->
+                </div>
 
-        <article class="card">
-          <div class="img" style='background-image:url("https://static.wixstatic.com/media/f4c71b_8672ac4dca09494fad9fcb81f61b0eff~mv2.png/v1/fill/w_350,h_233,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/f4c71b_8672ac4dca09494fad9fcb81f61b0eff~mv2.png");'></div>
-          <div class="content">
-            <h4>Presupuestos en PUNIS / APU</h4>
-            <p>Especificaciones técnicas, rubros, cantidades y precios unitarios con detalle para contratación/obra.</p>
-            <div class="tags">
-              <span class="tag">PUNIS</span><span class="tag">APU</span><span class="tag">Especificaciones</span>
-            </div>
-          </div>
-        </article>
+                <button type="submit" id="vote-button">Votar</button>
+            </form>
+            <div id="feedback-message" class="feedback-success"></div>
+        </section>
+    </main>
 
-        <article class="card">
-          <div class="img" style='background-image:url("https://kamitechsac.com/wp-content/uploads/2022/07/s21.png");'></div>
-          <div class="content">
-            <h4>Armado de tableros eléctricos (campo)</h4>
-            <p>Montaje, conexionado, pruebas básicas y soporte técnico para tableros de control, bombas y fuerza.</p>
-            <div class="tags">
-              <span class="tag">Tableros</span><span class="tag">Control</span><span class="tag">Puesta en marcha</span>
-            </div>
-          </div>
-        </article>
+    <footer>
+        <p>&copy; 2024 Sistema de Votación. Todos los derechos reservados.</p>
+    </footer>
 
-        <article class="card">
-          <div class="img" style='background-image:url("https://ll-c.com.ec/foto/galery41//firefly-technicky-inspektor-v-prumyslovem-vyrobnim-podniku-pise-inspekcni-zpravu-71824.jpg");'></div>
-          <div class="content">
-            <h4>Inspecciones técnicas</h4>
-            <p>Revisión en sitio, checklist de cumplimiento, observaciones y recomendaciones para entregar obra segura.</p>
-            <div class="tags">
-              <span class="tag">QA/QC</span><span class="tag">Seguridad</span><span class="tag">Reporte</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
+    <script>
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID", // Usado para construir Storage URLs
+            storageBucket: "YOUR_STORAGE_BUCKET", // Usado para construir Storage URLs
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-    <!-- CONTACTO -->
-    <section id="contacto">
-      <div class="sectionTitle">
-        <div>
-          <h3>Contacto</h3>
-          <p>Escríbenos por WhatsApp o envía una solicitud (demo).</p>
-        </div>
-        <p>📍 Ubicación • 💬 WhatsApp • ✉️ Cotización</p>
-      </div>
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-      <div class="contact">
-        <div class="box">
-          <h4 style="margin:0;">📩 Solicitar cotización</h4>
-          <p style="margin:6px 0 0; color:var(--muted); font-size:13px;">
-            Completa el formulario y se generará un mensaje (demo). Puedes copiarlo y enviarlo por WhatsApp.
-          </p>
+        const candidateCardsContainer = document.getElementById('candidate-cards-container');
+        const candidateSelectionRadios = document.getElementById('candidate-selection-radios');
+        const votingForm = document.getElementById('voting-form');
+        const feedbackMessage = document.getElementById('feedback-message');
 
-          <div class="field">
-            <input id="name" placeholder="Nombre" />
-            <input id="email" placeholder="Correo (opcional)" />
-            <textarea id="msg" placeholder="Describe tu proyecto (ubicación, potencia, alcance, fechas)..."></textarea>
-            <button class="btn primary" onclick="buildMsg()">Generar mensaje</button>
-            <div id="out" class="hint" style="display:none; white-space:pre-wrap;"></div>
-          </div>
-        </div>
+        // Mapeo de IDs de candidato a números de imagen
+        const candidateIdToImageIdx = {
+            'CANDIDATO': 0,
+            'CANDIDATO 1': 1,
+            'CANDIDATO 2': 2,
+            'CANDIDATO 3': 3,
+        };
 
-        <div class="box">
-          <h4 style="margin:0;">💬 WhatsApp y ubicación</h4>
-          <p style="margin:6px 0 0; color:var(--muted); font-size:13px;">
-            Edita tu número y ciudad en el bloque de configuración del final del HTML.
-          </p>
+        async function getCandidateImageUrl(imageIndex) {
+            if (imageIndex === undefined || imageIndex === null) return '';
+            const filename = `candidate_${String(imageIndex).padStart(2, '0')}_photo.jpg`;
+            // Construir la URL de descarga pública. Para Storage Buckets con el formato por defecto
+            // gs://<bucket-name>/path/to/image.jpg, la URL http es:
+            // https://firebasestorage.googleapis.com/v0/b/<bucket-name>/o/path%2Fto%2Fimage.jpg?alt=media
+            // Aquí asumimos que las imágenes están en la raíz del bucket.
+            const bucketName = firebaseConfig.storageBucket;
+            if (!bucketName) {
+                console.error("Error: storageBucket no está configurado en firebaseConfig.");
+                return '';
+            }
+            return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodeURIComponent(filename)}?alt=media`;
+        }
 
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-            <a class="btn primary" id="whats2" href="#" target="_blank" rel="noopener">Abrir WhatsApp</a>
-            <a class="btn" id="maps" href="#" target="_blank" rel="noopener">Ver en Google Maps</a>
-          </div>
+        async function loadCandidates() {
+            candidateCardsContainer.innerHTML = '';
+            candidateSelectionRadios.innerHTML = '';
+            feedbackMessage.style.display = 'none';
 
-          <div style="margin-top:12px; border-radius:16px; overflow:hidden; border:1px solid var(--line);">
-            <!-- Mapa embebido (puedes cambiar la ciudad/búsqueda) -->
-            <iframe
-              id="mapFrame"
-              title="Mapa"
-              width="100%" height="280"
-              style="border:0;"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              src="">
-            </iframe>
-          </div>
+            try {
+                const candidatesRef = db.collection('candidates');
+                const snapshot = await candidatesRef.get();
 
-          <p class="hint">
-            Horario: L–V 08:00–18:00 • Emergencias: según coordinación.
-          </p>
-        </div>
-      </div>
-    </section>
+                if (snapshot.empty) {
+                    candidateCardsContainer.innerHTML = '<p>No se encontraron candidatos.</p>';
+                    return;
+                }
 
-    <div class="footer">
-      © <span id="year"></span> INDUS MR 
-    </div>
-  </div>
+                const candidatesData = [];
+                for (const doc of snapshot.docs) {
+                    const candidate = { id: doc.id, ...doc.data() };
+                    candidatesData.push(candidate);
+                }
 
-  <script>
-    // ====== CONFIGURA AQUÍ (solo cambia estos 3 valores) ======
-    const PHONE_E164 = "593983219093";    // <-- TU WHATSAPP (sin +, sin espacios). Ej: 593987654321
-    const CITY_QUERY = "Nueva Loja Frente A Hermanos Roman Via Quito"; // <-- Tu ciudad para el mapa / ubicación
-    const BUSINESS_NAME = " INDUSTRIES MR";   // <-- Nombre que sale en el mensaje
+                // Ordenar candidatos por votos descendente para visualización
+                candidatesData.sort((a, b) => b.VOTOS - a.VOTOS);
 
-    // ====== LINKS dinámicos ======
-    const baseWa = (text) => `https://wa.me/${PHONE_E164}?text=${encodeURIComponent(text)}`;
-    const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CITY_QUERY)}`;
+                for (const candidate of candidatesData) {
+                    const imageUrl = await getCandidateImageUrl(candidateIdToImageIdx[candidate.id]);
 
-    document.getElementById("btnWhats").href = baseWa(`Hola, vi su anuncio en internet me gustaria porfavor tener una cotización con ${BUSINESS_NAME}.`);
-    document.getElementById("whats2").href   = baseWa(`Hola, vi su anuncio en internet me gustaria porfavor tener una cotización con ${BUSINESS_NAME}.`);
-    document.getElementById("maps").href     = mapLink;
-    document.getElementById("mapFrame").src  = `https://www.google.com/maps?q=${encodeURIComponent(CITY_QUERY)}&output=embed`;
+                    // Crear tarjeta HTML para el candidato
+                    const cardHtml = `
+                        <div class="candidate-card">
+                            <img src="${imageUrl}" alt="${candidate.NOMBRE.trim()}" class="candidate-photo">
+                            <h4 class="candidate-name">${candidate.NOMBRE.trim()}</h4>
+                            <p class="vote-count">Votos: <strong>${candidate.VOTOS}</strong></p>
+                        </div>
+                    `;
+                    candidateCardsContainer.innerHTML += cardHtml;
 
-    document.getElementById("year").innerText = new Date().getFullYear();
+                    // Crear radio button para la selección
+                    const radioHtml = `
+                        <div class="candidate-radio-wrapper">
+                            <input type="radio" id="radio-${candidate.id}" name="selected_candidate" value="${candidate.id}" required>
+                            <label for="radio-${candidate.id}">${candidate.NOMBRE.trim()}</label>
+                        </div>
+                    `;
+                    candidateSelectionRadios.innerHTML += radioHtml;
+                }
 
-    // ====== Form: genera mensaje y ofrece link directo a WhatsApp ======
-    function buildMsg(){
-      const n = document.getElementById("name").value.trim();
-      const e = document.getElementById("email").value.trim();
-      const m = document.getElementById("msg").value.trim();
-      const out = document.getElementById("out");
+            } catch (error) {
+                console.error("Error al cargar candidatos: ", error);
+                candidateCardsContainer.innerHTML = '<p style="color: red;">Error al cargar la información de los candidatos.</p>';
+                showFeedback('Error al cargar la información de los candidatos.', 'error');
+            }
+        }
 
-      if(!n || !m){
-        out.style.display = "block";
-        out.textContent = "⚠️ Completa al menos tu nombre y el mensaje del proyecto.";
-        return;
-      }
+        function showFeedback(message, type) {
+            feedbackMessage.textContent = message;
+            feedbackMessage.className = 'feedback-message'; // Reset classes
+            feedbackMessage.classList.add(`feedback-${type}`);
+            feedbackMessage.style.display = 'block';
+        }
 
-      const text =
-`Hola, soy ${n}.
-Quiero una cotización con ${BUSINESS_NAME}.
-${e ? "Correo: " + e + "\n" : ""}Detalle del proyecto:
-${m}`;
+        async function handleVoteSubmission(event) {
+            event.preventDefault(); // Prevenir el envío por defecto del formulario
 
-      out.style.display = "block";
-      out.innerHTML = `✅ Mensaje generado:\n\n${text}\n\n➡️ Enviar por WhatsApp: ${baseWa(text)}`;
+            const cedula = document.getElementById('cedula').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const selectedCandidateRadio = document.querySelector('input[name="selected_candidate"]:checked');
 
-      // también actualiza botón principal con el mensaje
-      document.getElementById("btnWhats").href = baseWa(text);
-      document.getElementById("whats2").href   = baseWa(text);
-    }
-  </script>
+            if (!cedula || !nombre || !apellido || !selectedCandidateRadio) {
+                showFeedback('Por favor, complete todos los campos y seleccione un candidato.', 'error');
+                return;
+            }
+
+            const candidateId = selectedCandidateRadio.value;
+
+            try {
+                await db.runTransaction(async (transaction) => {
+                    const citizenRef = db.collection('citizens').doc(cedula);
+                    const citizenDoc = await transaction.get(citizenRef);
+
+                    if (!citizenDoc.exists) {
+                        // Ciudadano no existe, lo creamos y marcamos que votará
+                        transaction.set(citizenRef, {
+                            nombres: nombre,
+                            apellidos: apellido,
+                            has_voted: false // Se actualiza a true después del voto
+                        });
+                        console.log(`Ciudadano ${cedula} creado.`);
+                    } else if (citizenDoc.data().has_voted) {
+                        // Ciudadano ya votó, abortar transacción
+                        throw new Error(`El ciudadano con Cédula ${cedula} ya ha votado.`);
+                    }
+
+                    // En este punto, el ciudadano existe y no ha votado.
+                    // Actualizar el voto del candidato y el estado del ciudadano.
+                    const candidateRef = db.collection('candidates').doc(candidateId);
+                    const candidateDoc = await transaction.get(candidateRef);
+
+                    if (!candidateDoc.exists) {
+                        throw new Error(`El candidato con ID ${candidateId} no existe.`);
+                    }
+
+                    // Incrementa el contador de votos del candidato
+                    const newVotes = candidateDoc.data().VOTOS + 1;
+                    transaction.update(candidateRef, { VOTOS: newVotes });
+
+                    // Marca al ciudadano como que ya ha votado
+                    transaction.update(citizenRef, { has_voted: true });
+
+                    console.log(`Voto registrado para ${cedula} por ${candidateId}.`);
+                });
+
+                showFeedback('¡Voto registrado exitosamente!', 'success');
+                votingForm.reset(); // Limpiar formulario después del voto
+                loadCandidates(); // Recargar candidatos para mostrar el recuento actualizado
+
+            } catch (error) {
+                console.error("Error durante la transacción de voto: ", error.message);
+                showFeedback(`Error al registrar el voto: ${error.message}`, 'error');
+            }
+        }
+
+        // Cargar candidatos al cargar la página
+        window.addEventListener('load', loadCandidates);
+
+        // Vincular la función de envío de voto al formulario
+        votingForm.addEventListener('submit', handleVoteSubmission);
+    </script>
 </body>
 </html>
+"""
+
+print("HTML content for index.html generated successfully. It can be saved or displayed.")
